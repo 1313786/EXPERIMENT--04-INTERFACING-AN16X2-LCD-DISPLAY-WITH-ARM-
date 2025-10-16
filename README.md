@@ -1,5 +1,7 @@
 # EXPERIMENT 04 INTERFACING AN16X2 LCD DISPLAY WITH ARM AND DISPLAY STRING
 
+ ## NAME: IRFAN KHAN.N
+ ## REG NO: 212224230097
 
  ## Aim: 
  To Interface a 16X2 LCD display to ARM controller  , and simulate it in Proteus 
@@ -184,33 +186,59 @@ https://engineeringxpert.com/wp-content/uploads/2022/04/26.png
   ******************************************************************************
   * @attention
   *
-  * <h2><center>&copy; Copyright (c) 2025 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2025 STMicroelectronics.
+  * All rights reserved.
   *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
   *
   ******************************************************************************
   */
 /* USER CODE END Header */
-
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "lcd.h"
+Lcd_PortType ports[]={GPIOA,GPIOA,GPIOA,GPIOA};
+Lcd_PinType  pins[]={GPIO_PIN_3,GPIO_PIN_2,GPIO_PIN_1,GPIO_PIN_0};
+Lcd_HandleTypeDef lcd;
+/* Private includes ----------------------------------------------------------*/
+/* USER CODE BEGIN Includes */
 
-/* Function Prototypes -------------------------------------------------------*/
-void lcd_display(void);
+
+/* USER CODE END Includes */
+
+/* Private typedef -----------------------------------------------------------*/
+/* USER CODE BEGIN PTD */
+
+/* USER CODE END PTD */
+
+/* Private define ------------------------------------------------------------*/
+/* USER CODE BEGIN PD */
+/* USER CODE END PD */
+
+/* Private macro -------------------------------------------------------------*/
+/* USER CODE BEGIN PM */
+
+/* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
-Lcd_PortType ports[] = {GPIOA, GPIOA, GPIOA, GPIOA};
-Lcd_PinType pins[]   = {GPIO_PIN_3, GPIO_PIN_2, GPIO_PIN_1, GPIO_PIN_0};
-Lcd_HandleTypeDef lcd;
+
+/* USER CODE BEGIN PV */
+
+/* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
+/* USER CODE BEGIN PFP */
+
+/* USER CODE END PFP */
+
+/* Private user code ---------------------------------------------------------*/
+/* USER CODE BEGIN 0 */
+
+/* USER CODE END 0 */
 
 /**
   * @brief  The application entry point.
@@ -218,34 +246,39 @@ static void MX_GPIO_Init(void);
   */
 int main(void)
 {
+  /* USER CODE BEGIN 1 */
+
+  /* USER CODE END 1 */
+
   /* MCU Configuration--------------------------------------------------------*/
+
+
   HAL_Init();
   SystemClock_Config();
   MX_GPIO_Init();
 
-  /* Initialize LCD */
-  lcd = Lcd_create(ports, pins, GPIOB, GPIO_PIN_0, GPIOB, GPIO_PIN_1, LCD_4_BIT_MODE);
+  lcd=Lcd_create(ports,pins,GPIOB,GPIO_PIN_0,GPIOB,GPIO_PIN_1,LCD_4_BIT_MODE);
+  /* USER CODE BEGIN 2 */
+
+  /* USER CODE END 2 */
 
   /* Infinite loop */
+  /* USER CODE BEGIN WHILE */
   while (1)
   {
-    lcd_display();
+    /* USER CODE END WHILE */
+	lcd_display();
+    /* USER CODE BEGIN 3 */
   }
+  /* USER CODE END 3 */
 }
-
-/**
-  * @brief  Display data on LCD.
-  * @retval None
-  */
-void lcd_display(void)
+void lcd_display()
 {
-    Lcd_cursor(&lcd, 0, 1);
-    Lcd_string(&lcd, "ARULARASI U");
-
-    Lcd_cursor(&lcd, 1, 1);
-    Lcd_string(&lcd, "212223100002");
+	Lcd_cursor(&lcd,0,1);
+	Lcd_string(&lcd,"IRFAN KHAN .N\n");
+	Lcd_cursor(&lcd,1,1);
+	Lcd_string(&lcd,"212224230097\n");
 }
-
 /**
   * @brief System Clock Configuration
   * @retval None
@@ -255,21 +288,25 @@ void SystemClock_Config(void)
   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
+  /** Configure the main internal regulator output voltage
+  */
   __HAL_RCC_PWR_CLK_ENABLE();
   __HAL_PWR_VOLTAGESCALING_CONFIG(PWR_REGULATOR_VOLTAGE_SCALE2);
-
+  /** Initializes the RCC Oscillators according to the specified parameters
+  * in the RCC_OscInitTypeDef structure.
+  */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
-
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
     Error_Handler();
   }
-
-  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK | RCC_CLOCKTYPE_SYSCLK
-                              | RCC_CLOCKTYPE_PCLK1 | RCC_CLOCKTYPE_PCLK2;
+  /** Initializes the CPU, AHB and APB buses clocks
+  */
+  RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+                              |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
@@ -290,27 +327,35 @@ static void MX_GPIO_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
 
+  /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_3, GPIO_PIN_RESET);
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0 | GPIO_PIN_1, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0|GPIO_PIN_1, GPIO_PIN_RESET);
 
   /*Configure GPIO pins : PA0 PA1 PA2 PA3 */
-  GPIO_InitStruct.Pin = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_3;
+  GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PB0 PB1 */
-  GPIO_InitStruct.Pin = GPIO_PIN_0 | GPIO_PIN_1;
+  GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
 }
+
+/* USER CODE BEGIN 4 */
+
+/* USER CODE END 4 */
 
 /**
   * @brief  This function is executed in case of error occurrence.
@@ -318,31 +363,41 @@ static void MX_GPIO_Init(void)
   */
 void Error_Handler(void)
 {
+  /* USER CODE BEGIN Error_Handler_Debug */
+  /* User can add his own implementation to report the HAL error return state */
   __disable_irq();
   while (1)
   {
   }
+  /* USER CODE END Error_Handler_Debug */
 }
 
-#ifdef USE_FULL_ASSERT
+#ifdef  USE_FULL_ASSERT
 /**
   * @brief  Reports the name of the source file and the source line number
   *         where the assert_param error has occurred.
+  * @param  file: pointer to the source file name
+  * @param  line: assert_param error line source number
+  * @retval None
   */
 void assert_failed(uint8_t *file, uint32_t line)
 {
-  /* User can add custom reporting here */
+  /* USER CODE BEGIN 6 */
+  /* User can add his own implementation to report the file name and line number,
+     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+  /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
 ```
 
 ## Output screen shots of proteus  :
 
- <img width="1919" height="1023" alt="Screenshot 2025-10-05 181237" src="https://github.com/user-attachments/assets/ee0e8390-e56e-408c-a369-1d2e75ffb9fd" />
+<img width="1919" height="1195" alt="image" src="https://github.com/user-attachments/assets/139d57fa-2212-49bf-af2c-4809f877a860" />
+
 
  <img width="790" height="692" alt="image" src="https://github.com/user-attachments/assets/93b42a62-3f63-4002-b414-cd8b8297ca0e" />
+
+ <img width="1211" height="852" alt="image" src="https://github.com/user-attachments/assets/d4dae79a-5a6e-4e00-af23-3f869eab75cb" />
 
 ## Result :
 Interfacing a lcd display with ARM microcontroller are simulated in proteus and the results are verified.
